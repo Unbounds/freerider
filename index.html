@@ -1,1 +1,29 @@
-Hello world!
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+
+        <style>
+            body {
+                height: 120px;
+                width: 130px;
+                background-color: white;
+            };
+        </style>
+    </head>
+
+    <body>
+        <h3>hello</h3>
+
+        <script type="text/javascript" >
+            var url = "http://hertzfreerider.se/unauth/list_transport_offer.aspx";
+            $(document).ready(function() {
+                $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?' , function(data) {
+                    var html = data.contents;
+                    $('tr', html).each( function () {
+                        console.log($(this).text());
+                    });
+                })
+            });
+        </script>
+    </body>
+</html>
