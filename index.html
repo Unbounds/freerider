@@ -1,7 +1,7 @@
 <html>
     <head>
+        <meta charset="UTF-8">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
-
         <style>
             body {
                 height: 120px;
@@ -12,15 +12,32 @@
     </head>
 
     <body>
-        <h3>hello</h3>
+        <section id="contents">
+        </section>
 
         <script type="text/javascript" >
             var url = "http://hertzfreerider.se/unauth/list_transport_offer.aspx";
             $(document).ready(function() {
+                var row = {};
+                var rows =  [];
+
                 $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?' , function(data) {
-                    var html = data.contents;
-                    $('tr', html).each( function () {
-                        console.log($(this).text());
+                    var stations = $("div#offers_list span.offer_header a", data.contents);
+                    var spans = $("div#offers_list td>span", data.contents);
+                    for(var i = 0; i < spans.length / 3; i++) {
+                        row = {
+                            startStation: stations[i * 2],
+                            endStation: stations[(i * 2) + 1],
+                            startDate: spans[i * 3],
+                            endDate: spans[(i * 3) + 1],
+                            car: spans[(i * 3) + 2]
+                        }
+
+                        rows.push(row);
+                    }
+
+                    $.each(rows, function(index, row){
+                        console.log(row.car);
                     });
                 })
             });
